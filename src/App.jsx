@@ -7,7 +7,6 @@ const fallback = raw
   .map((p, i) => ({ id: i, title: p.title || 'Untitled', cover: p.cover || null, description: p.description || '', tracks: null, apple: p.apple || null, spotify: p.spotify || null }))
 
 const SIDES = [-1, .6, -.3, 1, -.8, .2, .9, -.6, .4]
-const pad = n => String(n).padStart(3, '0')
 
 function Placeholder({ seed }) {
   const ref = useRef(null)
@@ -27,10 +26,10 @@ function Placeholder({ seed }) {
   return <canvas ref={ref} aria-hidden="true" />
 }
 
-function Cover({ p, vol }) {
+function Cover({ p, seed }) {
   const [broken, setBroken] = useState(false)
   if (p.cover && !broken) return <div className="cover"><img src={p.cover} alt="" loading="lazy" onError={() => setBroken(true)} /></div>
-  return <div className="cover"><Placeholder seed={vol} /><span className="name">{p.title}</span></div>
+  return <div className="cover"><Placeholder seed={seed} /><span className="name">{p.title}</span></div>
 }
 
 export default function App() {
@@ -70,14 +69,13 @@ export default function App() {
 
   const total = list.length
   const sel = open != null ? list.find(p => p.id === open) : null
-  const selVol = sel ? total - list.indexOf(sel) : 0
+  const selSeed = sel ? total - list.indexOf(sel) : 0
 
   return (
     <>
       <header>
         <div className="bar">
           <span className="wordmark">TW Sounds</span>
-          <span className="meta">{pad(total)} playlists</span>
         </div>
       </header>
 
@@ -88,15 +86,12 @@ export default function App() {
 
       <main className="stage">
         {total === 0 && <p className="empty">First playlists coming soon</p>}
-        {list.map((p, i) => {
-          const vol = total - i
-          return (
-            <button key={p.id} ref={el => (cards.current[i] = el)} className="card" type="button" onClick={() => setOpen(p.id)} aria-label={`Vol. ${pad(vol)}, ${p.title}`}>
-              <Cover p={p} vol={vol} />
-              <div className="cap"><span>{pad(vol)} · {p.title}</span><span>{p.tracks ? `${p.tracks} tracks` : ''}</span></div>
-            </button>
-          )
-        })}
+        {list.map((p, i) => (
+          <button key={p.id} ref={el => (cards.current[i] = el)} className="card" type="button" onClick={() => setOpen(p.id)} aria-label={p.title}>
+            <Cover p={p} seed={total - i} />
+            <div className="cap"><span>{p.title}</span><span>{p.tracks ? `${p.tracks} tracks` : ''}</span></div>
+          </button>
+        ))}
       </main>
 
       <footer>© STUDIO TW · <a href="https://studio-tw.com" target="_blank" rel="noopener">studio-tw.com</a></footer>
@@ -104,10 +99,10 @@ export default function App() {
       {sel && (
         <div className="sheet" onClick={e => e.target === e.currentTarget && setOpen(null)}>
           <div className="panel" role="dialog" aria-modal="true" aria-labelledby="d-title">
-            <Cover p={sel} vol={selVol} />
+            <Cover p={sel} seed={selSeed} />
             <div className="detail">
               <button className="close" type="button" onClick={() => setOpen(null)} autoFocus>Close</button>
-              <span className="meta">TW Sounds {pad(selVol)}{sel.tracks ? ` · ${sel.tracks} tracks` : ''}</span>
+              {sel.tracks && <span className="meta">{sel.tracks} tracks</span>}
               <h2 id="d-title">{sel.title}</h2>
               {sel.description && <p>{sel.description}</p>}
               <div className="links">

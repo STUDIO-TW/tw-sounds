@@ -21,8 +21,6 @@ Optional overrides on any entry, used if you want to replace what the platforms 
 - `cover` (full image URL)
 - `description`
 
-Volume numbers are worked out from the order of the list, so the bottom entry is 001.
-
 ## How it works
 
 - `api/playlists.js` is a Vercel function that reads `playlists.json`, fetches each Apple Music and Spotify page, and pulls the preview data (title, artwork, description, song count). Apple is used first, Spotify fills any gaps.
