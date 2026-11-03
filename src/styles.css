@@ -6,7 +6,7 @@
   --muted: #8d8f95;
   --line: #2a2d33;
   --accent: #c9c4b8;
-  --display: "Helvetica Monospaced", "Helvetica Monospaced Pro", "HelveticaMonospaced", "Roboto Mono", ui-monospace, Menlo, monospace;
+  --display: "Fragment Mono", ui-monospace, Menlo, monospace;
   --mono: var(--display);
   --card: min(340px, 74vw);
   --gutter-l: max(16px, env(safe-area-inset-left, 0px));
@@ -15,7 +15,7 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--bg); color: var(--fg); }
-body { font-family: var(--display); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body { font-family: var(--display); font-synthesis: none; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 
