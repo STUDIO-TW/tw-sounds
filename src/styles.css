@@ -6,8 +6,8 @@
   --muted: #8d8f95;
   --line: #2a2d33;
   --accent: #c9c4b8;
-  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --display: "Helvetica Monospaced", "Helvetica Monospaced Pro", "HelveticaMonospaced", "Roboto Mono", ui-monospace, Menlo, monospace;
+  --mono: var(--display);
   --card: min(340px, 74vw);
   --gutter-l: max(16px, env(safe-area-inset-left, 0px));
   --gutter-r: max(16px, env(safe-area-inset-right, 0px));
