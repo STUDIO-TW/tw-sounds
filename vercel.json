@@ -1,0 +1,5 @@
+{
+  "functions": {
+    "api/playlists.js": { "includeFiles": "playlists.json", "maxDuration": 20 }
+  }
+}
