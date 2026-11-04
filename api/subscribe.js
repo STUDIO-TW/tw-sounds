@@ -29,13 +29,14 @@ export default async function handler(req, res) {
   const email = clean(b.email, 254).toLowerCase()
   if (!name) return res.status(422).json({ error: 'Add your name to subscribe.' })
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(422).json({ error: 'Add a valid email address.' })
+  if (b.consent !== true && b.consent !== 'yes') return res.status(422).json({ error: 'Tick the box to confirm you’d like to receive TW Sounds emails.' })
   if (!process.env.KIT_API_KEY) return res.status(500).json({ error: 'Mailing list not configured.' })
 
   try {
     // create (or update, if the email already exists) the subscriber with their details
     await kit('/subscribers', { email_address: email, first_name: name, fields: { city, note } })
     // then add them to the TW Sounds form so they land in the right list
-    if (process.env.KIT_FORM_ID) await kit(`/forms/${process.env.KIT_FORM_ID}/subscribers`, { email_address: email, referrer: 'tw-sounds-site' })
+    if (process.env.KIT_FORM_ID) await kit(`/forms/${process.env.KIT_FORM_ID}/subscribers`, { email_address: email, referrer: 'tw-sounds-site (consent given via form)' })
     return res.status(200).json({ ok: true })
   } catch (err) {
     console.error(err)
