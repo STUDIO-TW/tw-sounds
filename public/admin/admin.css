@@ -1,0 +1,83 @@
+/* TW Sounds skin for the Sveltia CMS editor: the site's near-black and off-white, Fragment Mono, square corners and hairlines.
+   It works by overriding Sveltia's own theme variables, so it's tied to the pinned version in index.html. */
+:root, :root[data-theme], :root:not([data-theme]) {
+  color-scheme: dark !important;
+  --sui-base-hue: 40 !important;
+
+  /* surfaces, darkest to lightest */
+  --sui-background-color-1-hsl: 200 8% 3.5% !important;
+  --sui-background-color-2-hsl: 200 8% 3.5% !important;
+  --sui-background-color-3-hsl: 40 4% 7% !important;
+  --sui-background-color-4-hsl: 40 4% 10% !important;
+  --sui-background-color-5-hsl: 40 5% 14% !important;
+
+  /* text, brightest to faintest */
+  --sui-foreground-color-1-hsl: 43 15% 92% !important;
+  --sui-foreground-color-2-hsl: 43 15% 92% !important;
+  --sui-foreground-color-3-hsl: 225 3% 57% !important;
+  --sui-foreground-color-4-hsl: 225 3% 45% !important;
+  --sui-foreground-color-5-hsl: 225 3% 33% !important;
+
+  /* hairlines, the same tone as the rules on the site */
+  --sui-border-color-1-hsl: 43 6% 28% !important;
+  --sui-border-color-2-hsl: 43 6% 22% !important;
+  --sui-border-color-3-hsl: 43 6% 18% !important;
+  --sui-shadow-color: 0 0% 0% !important;
+
+  /* off-white instead of blue for buttons, selections and focus */
+  --sui-primary-accent-color: #efede8 !important;
+  --sui-primary-accent-color-dark: #d9d7d1 !important;
+  --sui-primary-accent-color-light: #f7f6f2 !important;
+  --sui-primary-accent-color-inverted: #08090a !important;
+  --sui-primary-accent-color-text: #efede8 !important;
+  --sui-primary-accent-color-translucent: rgba(239, 237, 232, .14) !important;
+  --sui-focus-ring-color: #efede8 !important;
+  --sui-focus-ring-width: 1px !important;
+
+  /* type */
+  --sui-font-family-default: "Fragment Mono", ui-monospace, Menlo, monospace !important;
+  --sui-control-font-family: "Fragment Mono", ui-monospace, Menlo, monospace !important;
+  --sui-font-size-x-small: 10px !important;
+  --sui-font-size-small: 11px !important;
+  --sui-font-size-default: 12px !important;
+  --sui-font-size-monospace: 12px !important;
+  --sui-font-size-large: 13px !important;
+  --sui-font-size-x-large: 14px !important;
+  --sui-font-size-xx-large: 16px !important;
+  --sui-font-size-xxx-large: 18px !important;
+  --sui-font-weight-bold: 400 !important;
+  --sui-font-weight-normal: 400 !important;
+
+  /* square corners everywhere */
+  --sui-control-small-border-radius: 0 !important;
+  --sui-control-medium-border-radius: 0 !important;
+  --sui-control-large-border-radius: 0 !important;
+  --sui-button-small-border-radius: 0 !important;
+  --sui-button-medium-border-radius: 0 !important;
+  --sui-button-large-border-radius: 0 !important;
+  --sui-textbox-border-radius: 0 !important;
+  --sui-checkbox-border-radius: 0 !important;
+  --sui-listbox-border-radius: 0 !important;
+  --sui-option-border-radius: 0 !important;
+  --sui-tree-border-radius: 0 !important;
+  --sui-tree-item-border-radius: 0 !important;
+}
+
+body { background: #08090a !important; -webkit-font-smoothing: antialiased; font-synthesis: none; }
+*, *::before, *::after { border-radius: 0 !important; box-shadow: none !important; }
+
+/* labels, buttons, headings and menus in caps like the site; anything you type keeps its own case */
+button, label, legend, h1, h2, h3, h4, [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"],
+[role="option"], [role="treeitem"], .sui.button, .sui.truncated-text {
+  text-transform: uppercase !important;
+  letter-spacing: .02em !important;
+  font-weight: 400 !important;
+}
+input, textarea, [contenteditable], .cm-content, [contenteditable] * { text-transform: none !important; letter-spacing: 0 !important; }
+
+/* sign-in screen: small logo, title set like the site */
+.container > .inner > img.logo { height: 16px !important; width: auto !important; }
+.container > .inner > h1 { font-size: 11px !important; margin-block: 16px 24px !important; }
+
+/* the app's outer shell uses a mid surface by default; keep the page itself at the site's black */
+.sui.app-shell, .sui.app-shell > .outer { background-color: #08090a !important; }

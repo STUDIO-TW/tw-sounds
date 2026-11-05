@@ -11,7 +11,9 @@ backend:
 
 site_url: https://sounds.studio-tw.com
 display_url: https://sounds.studio-tw.com
-logo_url: /covers/tw-logo.svg
+app_title: TW Sounds
+logo:
+  src: /covers/tw-logo.svg
 
 media_folder: public/covers
 public_folder: /covers
