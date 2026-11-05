@@ -1,12 +1,12 @@
-// Reads playlists.json and fills in title, cover, description and track count
-// from the public Apple Music and Spotify pages. No accounts or API keys.
-// Responses are cached at Vercel's edge for 6 hours.
+// Reads content/playlists.json and fills in anything left blank from the public
+// Apple Music and Spotify pages: runtime (HH:MM), and title or cover if missing.
+// No accounts or API keys. Responses are cached at Vercel's edge for 6 hours.
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const readList = () => JSON.parse(readFileSync(join(process.cwd(), 'playlists.json'), 'utf8'))
+const readList = () => JSON.parse(readFileSync(join(process.cwd(), 'content', 'playlists.json'), 'utf8'))
 
-const UA = 'Mozilla/5.0 (compatible; TWSoundsBot/1.0; +https://github.com/STUDIO-TW/tw-sounds)'
+const UA = 'Mozilla/5.0 (compatible; TWSoundsBot/1.0; +https://sounds.studio-tw.com)'
 
 async function get(url, ms = 8000) {
   const ctrl = new AbortController()
@@ -20,9 +20,23 @@ async function get(url, ms = 8000) {
 const decode = s => s && s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim()
 
 function meta(html, prop) {
-  const re = new RegExp(`<meta[^>]+(?:property|name)=["']${prop}["'][^>]*content=["']([^"']*)["']`, 'i')
-  const re2 = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*(?:property|name)=["']${prop}["']`, 'i')
-  return decode((html.match(re) || html.match(re2) || [])[1])
+  const a = new RegExp(`<meta[^>]+(?:property|name)=["']${prop}["'][^>]*content=["']([^"']*)["']`, 'i')
+  const b = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]*(?:property|name)=["']${prop}["']`, 'i')
+  return decode((html.match(a) || html.match(b) || [])[1])
+}
+
+// "TW Sounds: Magic Tricks" -> "Magic Tricks"
+const cleanTitle = t => t && t.replace(/\s+(on|-|\|)\s+(Apple Music|Spotify)$/i, '').replace(/ by STUDIO TW$/i, '').replace(/^TW Sounds:\s*/i, '').trim()
+
+const hhmm = mins => `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(Math.round(mins % 60)).padStart(2, '0')}`
+
+// Pulls a total duration out of text like "2 hours 4 minutes", "1 hr 52 min" or "PT2H4M"
+function minutesFrom(text) {
+  if (!text) return null
+  const iso = text.match(/PT(?:(\d+)H)?(?:(\d+)M)?/)
+  if (iso && (iso[1] || iso[2])) return (+iso[1] || 0) * 60 + (+iso[2] || 0)
+  const h = text.match(/(\d+)\s*(?:hours?|hrs?|h)\b/i), m = text.match(/(\d+)\s*(?:minutes?|mins?|m)\b/i)
+  return h || m ? (h ? +h[1] : 0) * 60 + (m ? +m[1] : 0) : null
 }
 
 async function fromApple(url) {
@@ -31,49 +45,29 @@ async function fromApple(url) {
   if (!r) return {}
   const html = await r.text()
   let image = meta(html, 'og:image')
-  // Apple serves a 1200x630 share image; ask its image server for a square crop instead
   if (image) image = image.replace(/\/\d+x\d+[a-z]*(-\d+)?\.(png|jpg|jpeg|webp)$/i, '/1200x1200cc.jpg')
-  const title = (meta(html, 'og:title') || '').replace(/\s+(on|-|\|)\s+Apple Music$/i, '').replace(/ by STUDIO TW$/i, '')
-  const desc = meta(html, 'og:description') || meta(html, 'description')
-  const songs = (desc || '').match(/(\d+)\s+songs?/i)
-  return { title: title || undefined, image, description: cleanDesc(desc), tracks: songs ? +songs[1] : undefined }
+  const desc = [meta(html, 'og:description'), meta(html, 'description')].join(' ')
+  const ld = (html.match(/"duration"\s*:\s*"(PT[^"]+)"/) || [])[1]
+  const mins = minutesFrom(/Duration:[^.]*/i.exec(desc)?.[0]) ?? minutesFrom(ld)
+  return { title: cleanTitle(meta(html, 'og:title')), image, runtime: mins ? hhmm(mins) : null }
 }
 
 async function fromSpotify(url) {
   if (!url) return {}
-  const out = {}
   const o = await get(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`)
-  if (o) { try { const j = await o.json(); out.title = j.title; out.image = j.thumbnail_url } catch {} }
-  const p = await get(url)
-  if (p) {
-    const html = await p.text()
-    const d = meta(html, 'og:description') || ''
-    const n = d.match(/(\d[\d,]*)\s+(items|songs)/i)
-    if (n) out.tracks = +n[1].replace(/,/g, '')
-    out.image = meta(html, 'og:image') || out.image
-    const md = meta(html, 'description')
-    if (md && !/^Listen to/i.test(md) && !/Playlist\s·/.test(md)) out.description = md
-  }
-  return out
-}
-
-// Strip Apple's boilerplate ("Listen to X by Y on Apple Music. N Songs. Duration...")
-function cleanDesc(d) {
-  if (!d) return undefined
-  if (/^Listen to .* on Apple Music/i.test(d)) return undefined
-  return d.replace(/\s*\d+\s+Songs?\.?.*$/i, '').trim() || undefined
+  if (!o) return {}
+  try { const j = await o.json(); return { title: cleanTitle(j.title), image: j.thumbnail_url } } catch { return {} }
 }
 
 export default async function handler(req, res) {
-  const rows = readList().filter(p => p.apple || p.spotify)
-  const items = await Promise.all(rows.map(async (p, i) => {
-    const [a, s] = await Promise.all([fromApple(p.apple), fromSpotify(p.spotify)])
+  const items = await Promise.all(readList().map(async p => {
+    const needsApple = p.apple && (!p.runtime || !p.title || !p.cover)
+    const a = needsApple ? await fromApple(p.apple) : {}
+    const s = (!p.title || !p.cover) && !a.title ? await fromSpotify(p.spotify) : {}
     return {
-      id: i,
       title: p.title || a.title || s.title || 'Untitled',
       cover: p.cover || a.image || s.image || null,
-      description: p.description || a.description || s.description || '',
-      tracks: a.tracks || s.tracks || null,
+      runtime: p.runtime || a.runtime || null,
       apple: p.apple || null,
       spotify: p.spotify || null,
     }

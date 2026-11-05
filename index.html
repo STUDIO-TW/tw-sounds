@@ -1,19 +1,88 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>TW Sounds</title>
-    <meta name="description" content="TW Sounds, a playlist series by STUDIO TW. Browse every volume and listen on Apple Music or Spotify." />
-    <meta property="og:title" content="TW Sounds" />
-    <meta property="og:description" content="A playlist series by STUDIO TW." />
-    <meta name="theme-color" content="#121315" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TW Sounds</title>
+<meta name="description" content="A series of sounds curated by Tom Winslade of STUDIO TW.">
+<meta property="og:title" content="TW Sounds">
+<meta property="og:description" content="A series of sounds curated by Tom Winslade of STUDIO TW.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#08090a">
+<link rel="icon" href="/covers/tw-logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=block">
+</head>
+<body>
+<div class="loader" id="loader" role="status" aria-live="polite">
+  <div class="ln h" id="ln-t"></div><div class="ln h" id="ln-b"></div><div class="ln v" id="ln-l"></div><div class="ln v" id="ln-r"></div>
+  <div class="ld-frame" id="ld-frame"></div>
+  <span class="ld-status wait" id="ld-status"><span class="ld-spin" id="ld-spin">|</span><span id="ld-text">TW Sounds</span></span>
+</div>
+<div class="field pre" id="field"></div>
+<div class="grid" id="grid" aria-hidden="true"><div class="grid-inner" id="grid-inner"></div>
+  <nav class="list-links" id="list-about" aria-label="About TW Sounds"></nav>
+</div>
+<div class="listbar" aria-hidden="true"></div>
+<button class="homebtn" id="homebtn" type="button" aria-haspopup="dialog">Sounds</button>
+<button class="viewbtn" id="viewbtn" type="button" aria-label="Show all playlists as a list" aria-pressed="false">
+  <svg id="ico-grid" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+  <svg id="ico-stack" viewBox="0 0 18 18" aria-hidden="true" hidden><rect x="2" y="2" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+</button>
+
+<div class="sheet" id="about" hidden>
+  <div class="panel-wrap" id="about-panel" tabindex="-1" role="dialog" aria-modal="true" aria-label="About TW Sounds">
+  <div class="panel">
+    <div class="p-row p-top"><button class="close" id="about-close" type="button">Close</button></div>
+    <div id="about-body"></div>
+  </div>
+  </div>
+</div>
+<div class="sheet" id="join" hidden>
+  <div class="panel-wrap" id="join-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="j-title">
+  <div class="panel">
+    <div class="p-row p-top"><button class="close" id="join-close" type="button">Close</button></div>
+    <form id="join-form" novalidate>
+      <div class="p-body" id="j-title"><p id="j-intro"></p></div>
+      <div class="f-row"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" placeholder="Your name" required></div>
+      <div class="f-row"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2" placeholder="Where you are"></div>
+      <div class="f-row"><label for="f-email">Email</label><input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required></div>
+      <div class="f-row"><label for="f-note">Note</label><textarea id="f-note" name="note" rows="3" placeholder="Optional"></textarea></div>
+      <label class="f-consent" id="f-consent-row"><input type="checkbox" id="f-consent" name="consent" value="yes"><span class="f-box" aria-hidden="true"></span>
+        <span class="f-text" id="f-consent-text"></span></label>
+      <div class="f-hp" aria-hidden="true"><label for="f-website">Leave empty</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="f-submit" id="f-submit" type="submit"><span>Submit</span><span aria-hidden="true">↗</span></button>
+      <p class="f-msg" id="f-msg" hidden></p>
+      <button class="f-submit" id="f-privacy" type="button"><span>Privacy notice</span><span aria-hidden="true">↗</span></button>
+    </form>
+    <div id="join-done" hidden>
+      <div class="p-body"><p id="j-done"></p></div>
+      <button class="f-submit" id="join-done-close" type="button"><span id="j-back"></span><span aria-hidden="true">↗</span></button>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="sheet" id="privacy" hidden>
+  <div class="panel-wrap" id="privacy-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="pv-title">
+  <div class="panel">
+    <div class="p-row p-top"><button class="close" id="privacy-close" type="button">Close</button></div>
+    <div class="p-row"><span id="pv-title">Privacy notice</span><span class="muted" id="pv-updated"></span></div>
+    <section class="pv" id="pv-body"></section>
+  </div>
+  </div>
+</div>
+<div class="sheet" id="sheet" hidden>
+  <div class="panel-wrap" id="panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="d-title">
+  <div class="panel">
+    <div class="p-row p-top"><button class="close" id="close" type="button">Close</button></div>
+    <div class="cover" id="d-cover"></div>
+    <div class="p-row p-info"><span class="muted" id="d-no"></span><span class="p-title" id="d-title"></span><span class="muted" id="d-time"></span></div>
+    <p class="p-desc" id="d-desc" hidden></p>
+    <div id="d-links"></div>
+  </div>
+  </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>

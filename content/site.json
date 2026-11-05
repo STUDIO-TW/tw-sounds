@@ -1,0 +1,54 @@
+{
+  "about": {
+    "bio": [
+      "A series of sounds curated by Tom Winslade of STUDIO TW.",
+      "Subscribe to TW SOUNDS to receive new playlists direct to your inbox. Follow on Apple Music and Spotify for updates.",
+      "STUDIO TW © 2026 ALL RIGHTS RESERVED"
+    ],
+    "links": [
+      {
+        "label": "Subscribe to TW Sounds",
+        "subscribe": true
+      },
+      {
+        "label": "Follow on Apple Music",
+        "href": "https://music.apple.com/profile/studio___tw"
+      },
+      {
+        "label": "Follow on Spotify",
+        "href": "https://open.spotify.com/user/72rkw57aue3r5h296skhe6oj3"
+      },
+      {
+        "label": "studio-tw.com",
+        "href": "https://studio-tw.com"
+      }
+    ]
+  },
+  "subscribe": {
+    "intro": "Subscribe to TW SOUNDS to receive new playlists direct to your inbox.",
+    "consent": "Consent to TW Sounds updates",
+    "done": "You’re on the list. New volumes of TW SOUNDS will land in your inbox.",
+    "back": "Back to TW Sounds",
+    "errors": {
+      "email": "Add an email address to complete sign-up.",
+      "name": "Add your name to complete sign-up.",
+      "consent": "Confirm consent to complete sign-up.",
+      "failed": "That didn’t go through. Check your connection and try again."
+    }
+  },
+  "privacy": {
+    "updated": "November 2026",
+    "paragraphs": [
+      "When you subscribe, TW SOUNDS c/o STUDIO TW keeps your name, email, city and note if you add them. We use your details to send you TW SOUNDS updates, and never sell or share them.",
+      "Your details are securely stored with our email provider, Kit. Every email has an unsubscribe link, and you can ask us to see or delete your details at any time at sounds@studio-tw.com.",
+      "If you have a concern, you can contact the ICO at ico.org.uk."
+    ]
+  },
+  "loader": [
+    "TW Sounds",
+    "Establishing connection",
+    "Scanning frequencies",
+    "Enabling broadcast",
+    "Syncing records"
+  ]
+}
