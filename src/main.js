@@ -3,6 +3,9 @@ import playlistFile from '../content/playlists.json'
 const playlists=playlistFile.playlists||[]
 import site from '../content/site.json'
 import { inject, track } from '@vercel/analytics'
+// Runtimes are stored as HH:MM and shown as "1 HR 13 MINS", or "49 MINS" under an hour
+const dur=t=>{const m=/^(\d+):(\d{1,2})$/.exec(t||'');if(!m)return t||'XX MINS';const h=+m[1],n=+m[2];
+  return [h?`${h} HR${h>1?'S':''}`:'',n||!h?`${n} MIN${n===1?'':'S'}`:''].filter(Boolean).join(' ')};
 inject()   // Vercel Web Analytics: cookieless visit counts
 
 // Text that lives in content/site.json
@@ -160,7 +163,7 @@ function open(p){
   coverEl(p,document.getElementById('d-cover'),true);
   document.getElementById('d-no').textContent=String(PLAYLISTS.length-i).padStart(2,'0');
   document.getElementById('d-title').textContent=p.title;
-  document.getElementById('d-time').textContent=p.runtime||'XX:XX';
+  document.getElementById('d-time').textContent=dur(p.runtime);
   const d=document.getElementById('d-desc');d.textContent=p.desc||'';d.hidden=!p.desc;
   // each whole row is the link; the right-hand slot takes the platform's official logo file when it's added
   const l=(href,label,key)=>{const mark=`<span class="p-mark" data-brand="${key}" aria-hidden="true">↗</span>`;
@@ -248,7 +251,7 @@ PLAYLISTS.forEach((p,i)=>{
   const src=art[i].querySelector('canvas'),dst=b.querySelector('canvas');if(src&&dst)dst.getContext('2d').drawImage(src,0,0);
   const tx=document.createElement('span');tx.className='tile-text';
   const ti=document.createElement('span');ti.className='tile-title';ti.textContent=p.title;
-  const tm=document.createElement('span');tm.className='tile-time';tm.textContent=p.runtime||'XX:XX';p._time=tm; // HH:MM
+  const tm=document.createElement('span');tm.className='tile-time';tm.textContent=dur(p.runtime);p._time=tm;
   tx.append(ti,tm);b.append(tx);
   b.addEventListener('click',()=>open(p));gridInner.append(b);
 });
@@ -309,6 +312,6 @@ viewbtn.addEventListener('click',()=>setGrid(!gridOn));
 fetch('/api/playlists').then(r=>r.ok?r.json():null).then(d=>{
   if(!d||!Array.isArray(d.playlists))return;
   d.playlists.forEach((x,i)=>{const p=PLAYLISTS[i];if(!p||!x)return;
-    if(x.runtime&&!p.runtime){p.runtime=x.runtime;if(p._time)p._time.textContent=x.runtime}
+    if(x.runtime&&!p.runtime){p.runtime=x.runtime;if(p._time)p._time.textContent=dur(x.runtime)}
   });
 }).catch(()=>{});
