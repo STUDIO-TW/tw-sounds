@@ -27,9 +27,9 @@ export default async function handler(req, res) {
 
   const name = clean(b.name, 100), city = clean(b.city, 100), note = clean(b.note, 1000)
   const email = clean(b.email, 254).toLowerCase()
-  if (!name) return res.status(422).json({ error: 'Add your name to subscribe.' })
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(422).json({ error: 'Add a valid email address.' })
-  if (b.consent !== true && b.consent !== 'yes') return res.status(422).json({ error: 'Tick the box to confirm you’d like to receive TW Sounds emails.' })
+  if (!name) return res.status(422).json({ error: 'Add your name to complete sign-up.' })
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(422).json({ error: 'Add an email address to complete sign-up.' })
+  if (b.consent !== true && b.consent !== 'yes') return res.status(422).json({ error: 'Confirm consent to complete sign-up.' })
   if (!process.env.KIT_API_KEY) return res.status(500).json({ error: 'Mailing list not configured.' })
 
   try {
