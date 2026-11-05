@@ -18,6 +18,25 @@ async function kit(path, body) {
 
 const clean = (v, max) => String(v ?? '').trim().slice(0, max)
 
+// Tidy a city into title case: "london" -> "London", "new york city" -> "New York City",
+// "stoke-on-trent" -> "Stoke-on-Trent". Short words typed in capitals ("NYC", "LA") stay as typed,
+// and well-known abbreviations are capitalised even if typed in lowercase ("nyc" -> "NYC").
+const ABBR = new Set(['nyc', 'la', 'sf', 'dc', 'uk', 'usa', 'us', 'uae', 'ldn', 'bk', 'nola', 'atl', 'phx', 'cdmx'])
+const SMALL = new Set(['on', 'upon', 'of', 'the', 'de', 'del', 'da', 'di', 'du', 'la', 'le', 'sur', 'am', 'and'])
+function tidyCity(raw) {
+  const text = raw.replace(/\s+/g, ' ').trim()
+  let first = true
+  const single = !/[\s-]/.test(text)
+  return text.replace(/[^\s-]+/g, word => {
+    const lower = word.toLowerCase(), isFirst = first
+    first = false
+    if (single && ABBR.has(lower.replace(/\./g, ''))) return word.replace(/\./g, '').toUpperCase()   // only when it's the whole answer, so "la paz" stays "La Paz"
+    if (word.length <= 4 && word === word.toUpperCase() && /[A-Z]/.test(word)) return word
+    if (!isFirst && SMALL.has(lower)) return lower
+    return lower.replace(/^(\p{L})/u, c => c.toUpperCase()).replace(/(['’]\p{L})/gu, m => m.toUpperCase())
+  })
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' })
   const b = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {})
@@ -25,7 +44,7 @@ export default async function handler(req, res) {
   // hidden field real people never fill in; bots usually do
   if (b.website) return res.status(200).json({ ok: true })
 
-  const name = clean(b.name, 100), city = clean(b.city, 100), note = clean(b.note, 1000)
+  const name = clean(b.name, 100), city = tidyCity(clean(b.city, 100)), note = clean(b.note, 1000)
   const email = clean(b.email, 254).toLowerCase()
   if (!name) return res.status(422).json({ error: 'Add your name to complete sign-up.' })
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(422).json({ error: 'Add an email address to complete sign-up.' })
