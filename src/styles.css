@@ -154,10 +154,9 @@ a.p-row:active{background:rgba(239,237,232,.06)}
   .card .cover { outline: 1px solid transparent; outline-offset: 8px; transition: outline-color .2s ease, outline-offset .2s ease; }
   .card:hover .cover { outline-color: rgba(239,237,232,.6); outline-offset: 6px; }
 
-  /* list: the row under the pointer stays bright while the rest fall back, and its two rules light up */
-  .grid-inner .tile { transition: opacity .2s ease; }
-  .grid-inner:hover .tile { opacity: .4; }
-  .grid-inner .tile:hover { opacity: 1; }
+  /* list: the row under the pointer gets the link bars' faint fill, edge to edge, and its two rules light up */
+  .tile { clip-path: inset(0 -100vmax); transition: background-color .15s ease, box-shadow .15s ease; }
+  .tile:hover { background: rgba(239,237,232,.06); box-shadow: 0 0 0 100vmax rgba(239,237,232,.06); }
   .tile::before, .tile:last-child::after { transition: background-color .2s ease; }
   .tile:hover::before, .tile:hover + .tile::before, .tile:last-child:hover::after { background: rgba(239,237,232,.6); }
   .tile:hover .tile-no, .tile:hover .tile-time { color: var(--fg); }
