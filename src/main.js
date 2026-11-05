@@ -2,6 +2,8 @@ import './styles.css'
 import playlistFile from '../content/playlists.json'
 const playlists=playlistFile.playlists||[]
 import site from '../content/site.json'
+import { inject, track } from '@vercel/analytics'
+inject()   // Vercel Web Analytics: cookieless visit counts
 
 // Text that lives in content/site.json
 const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
@@ -165,6 +167,7 @@ function open(p){
     return href?`<a class="p-row p-link" href="${href}" target="_blank" rel="noopener"><span>Listen on ${label}</span>${mark}</a>`
                :`<div class="p-row p-link off"><span>Listen on ${label}</span>${mark}</div>`};
   document.getElementById('d-links').innerHTML=l(p.apple,'Apple Music','apple')+l(p.spotify,'Spotify','spotify');
+  document.getElementById('d-links').onclick=e=>{const a=e.target.closest('a[data-brand], a.p-link');if(a)track('Listen',{playlist:p.title,platform:a.querySelector('.p-mark').dataset.brand})};
   // focus the panel itself rather than CLOSE, so no focus ring appears on open; keyboard users can still tab to CLOSE
   showSheet(sheet);document.getElementById('panel').focus({preventScroll:true});
 }
@@ -223,7 +226,7 @@ form.addEventListener('submit',async e=>{
   try{const res=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(f)});ok=res.ok}catch{}
   if(!ok&&(location.hostname==='localhost'||location.hostname==='127.0.0.1'))ok=true;   // local development only
   sub.disabled=false;sub.firstChild.textContent='Submit';
-  if(ok){form.hidden=true;document.getElementById('join-done').hidden=false}
+  if(ok){track('Subscribe');form.hidden=true;document.getElementById('join-done').hidden=false}
   else{msg.textContent=site.subscribe.errors.failed;msg.hidden=false}
 });
 // SOUNDS: a box over the stack; on the list, glide down to the same content in the footer
