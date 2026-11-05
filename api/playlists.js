@@ -39,6 +39,14 @@ function minutesFrom(text) {
   return h || m ? (h ? +h[1] : 0) * 60 + (m ? +m[1] : 0) : null
 }
 
+// Sums the per-song durations Apple puts in the page, e.g. <meta property="music:song:duration" content="PT8M29S">
+function songSeconds(html) {
+  const re = /<meta[^>]+(?:property|name)=["']music:song:duration["'][^>]*content=["']PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?["']/gi
+  let total = 0, n = 0, m
+  while ((m = re.exec(html))) { total += (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0); n++ }
+  return n ? total : null
+}
+
 async function fromApple(url) {
   if (!url) return {}
   const r = await get(url)
@@ -47,8 +55,10 @@ async function fromApple(url) {
   let image = meta(html, 'og:image')
   if (image) image = image.replace(/\/\d+x\d+[a-z]*(-\d+)?\.(png|jpg|jpeg|webp)$/i, '/1200x1200cc.jpg')
   const desc = [meta(html, 'og:description'), meta(html, 'description')].join(' ')
-  const ld = (html.match(/"duration"\s*:\s*"(PT[^"]+)"/) || [])[1]
-  const mins = minutesFrom(/Duration:[^.]*/i.exec(desc)?.[0]) ?? minutesFrom(ld)
+  // Apple's page summary drops the seconds ("1 hour 12 minutes"), but each song also carries its own exact
+  // duration. Add those up and round up to the minute, which matches what the Apple Music app shows.
+  const secs = songSeconds(html)
+  const mins = secs ? Math.ceil(secs / 60) : minutesFrom(/Duration:[^.]*/i.exec(desc)?.[0])
   return { title: cleanTitle(meta(html, 'og:title')), image, runtime: mins ? hhmm(mins) : null }
 }
 
