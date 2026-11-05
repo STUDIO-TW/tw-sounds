@@ -3,9 +3,8 @@ import playlistFile from '../content/playlists.json'
 const playlists=playlistFile.playlists||[]
 import site from '../content/site.json'
 import { inject, track } from '@vercel/analytics'
-// Runtimes are stored as HH:MM and shown as "1 HR 13 MINS", or "49 MINS" under an hour
-const dur=t=>{const m=/^(\d+):(\d{1,2})$/.exec(t||'');if(!m)return t||'XX MINS';const h=+m[1],n=+m[2];
-  return [h?`${h} HR${h>1?'S':''}`:'',n||!h?`${n} MIN${n===1?'':'S'}`:''].filter(Boolean).join(' ')};
+// Runtimes are stored as HH:MM and shown as total minutes, e.g. "73 MINS"
+const dur=t=>{const m=/^(\d+):(\d{1,2})$/.exec(t||'');if(!m)return t||'XX MINS';const n=+m[1]*60+ +m[2];return `${n} MIN${n===1?'':'S'}`};
 inject()   // Vercel Web Analytics: cookieless visit counts
 
 // Text that lives in content/site.json
