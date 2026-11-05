@@ -2,25 +2,29 @@
   "about": {
     "bio": [
       "A series of sounds curated by Tom Winslade of STUDIO TW.",
-      "Subscribe to TW SOUNDS to receive new playlists direct to your inbox. Follow on Apple Music and Spotify for updates.",
+      "Subscribe to TW SOUNDZ to receive new playlists direct to your inbox. Follow on Apple Music and Spotify for updates.",
       "STUDIO TW © 2026 ALL RIGHTS RESERVED"
     ],
     "links": [
       {
         "label": "Subscribe to TW Sounds",
+        "href": "",
         "subscribe": true
       },
       {
         "label": "Follow on Apple Music",
-        "href": "https://music.apple.com/profile/studio___tw"
+        "href": "https://music.apple.com/profile/studio___tw",
+        "subscribe": false
       },
       {
         "label": "Follow on Spotify",
-        "href": "https://open.spotify.com/user/72rkw57aue3r5h296skhe6oj3"
+        "href": "https://open.spotify.com/user/72rkw57aue3r5h296skhe6oj3",
+        "subscribe": false
       },
       {
         "label": "studio-tw.com",
-        "href": "https://studio-tw.com"
+        "href": "https://studio-tw.com",
+        "subscribe": false
       }
     ]
   },
