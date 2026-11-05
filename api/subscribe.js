@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
   try {
     // create (or update, if the email already exists) the subscriber with their details
-    await kit('/subscribers', { email_address: email, first_name: name, fields: { city, note } })
+    await kit('/subscribers', { email_address: email, first_name: name, state: 'active', fields: { city, note } })   // consent is given on the form, so no separate confirmation step
     // then add them to the TW Sounds form so they land in the right list
     if (process.env.KIT_FORM_ID) await kit(`/forms/${process.env.KIT_FORM_ID}/subscribers`, { email_address: email, referrer: 'tw-sounds-site (consent given via form)' })
     return res.status(200).json({ ok: true })
