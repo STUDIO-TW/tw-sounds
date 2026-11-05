@@ -4,7 +4,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const readList = () => JSON.parse(readFileSync(join(process.cwd(), 'content', 'playlists.json'), 'utf8'))
+const readList = () => JSON.parse(readFileSync(join(process.cwd(), 'content', 'playlists.json'), 'utf8')).playlists || []
 
 const UA = 'Mozilla/5.0 (compatible; TWSoundsBot/1.0; +https://sounds.studio-tw.com)'
 

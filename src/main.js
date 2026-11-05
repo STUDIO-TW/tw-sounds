@@ -1,5 +1,6 @@
 import './styles.css'
-import playlists from '../content/playlists.json'
+import playlistFile from '../content/playlists.json'
+const playlists=playlistFile.playlists||[]
 import site from '../content/site.json'
 
 // Text that lives in content/site.json

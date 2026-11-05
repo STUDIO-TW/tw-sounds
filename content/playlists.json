@@ -1,72 +1,74 @@
-[
-  {
-    "title": "Magic Tricks",
-    "cover": "/covers/10.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-magic-tricks/pl.u-qGLXFRER8P5",
-    "spotify": "https://open.spotify.com/playlist/4CVrhgiuCtYXiLRvjagWbb",
-    "runtime": ""
-  },
-  {
-    "title": "Crystallized Thoughts",
-    "cover": "/covers/02.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-crystallized-thoughts/pl.u-qGjMcRER8P5",
-    "spotify": "https://open.spotify.com/playlist/3HtnxsxyEA5GIVNvh4WvyB",
-    "runtime": ""
-  },
-  {
-    "title": "Forward Momentum",
-    "cover": "/covers/04.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-forward-momentum/pl.u-XegEfB5BozK",
-    "spotify": "https://open.spotify.com/playlist/2aUBrFBh6ttn37Z3UvsVDG",
-    "runtime": ""
-  },
-  {
-    "title": "Fresh Start",
-    "cover": "/covers/05.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-fresh-start/pl.u-EDybsv4v9rK",
-    "spotify": "https://open.spotify.com/playlist/7hXhfcktAgN9bD0sB11ebv",
-    "runtime": ""
-  },
-  {
-    "title": "Echo Chamber",
-    "cover": "/covers/03.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-echo-chamber/pl.u-p0AvCZmZGzL",
-    "spotify": "https://open.spotify.com/playlist/17YT3ncZmdQ20EQh3NLRdz",
-    "runtime": ""
-  },
-  {
-    "title": "Frequency Shift",
-    "cover": "/covers/01.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-frequency-shift/pl.u-rMAXSJBJdxG",
-    "spotify": "https://open.spotify.com/playlist/3RvbjQ1pSzRsTw9FY3VAo2",
-    "runtime": ""
-  },
-  {
-    "title": "Falling Upwards",
-    "cover": "/covers/06.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-falling-upwards/pl.u-qL6JtRER8P5",
-    "spotify": "https://open.spotify.com/playlist/2cdlQk0eNzba1noPqJDbVm",
-    "runtime": ""
-  },
-  {
-    "title": "Energy Renewal",
-    "cover": "/covers/07.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-energy-renewal/pl.u-qL2BtRER8P5",
-    "spotify": "https://open.spotify.com/playlist/216c7oiASCbnFRPeXXKBEg",
-    "runtime": ""
-  },
-  {
-    "title": "Inflection Point",
-    "cover": "/covers/09.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-inflection-point/pl.u-zxV3Cp3pEJg",
-    "spotify": "https://open.spotify.com/playlist/2D9TM4cDFcjkASXFIunfi4",
-    "runtime": ""
-  },
-  {
-    "title": "Growing Optimism",
-    "cover": "/covers/08.jpg",
-    "apple": "https://music.apple.com/gb/playlist/tw-sounds-growing-optimism/pl.u-zRoLtp3pEJg",
-    "spotify": "https://open.spotify.com/playlist/7qUl6mFTUbBS8ppOmitFXp",
-    "runtime": ""
-  }
-]
+{
+  "playlists": [
+    {
+      "title": "Magic Tricks",
+      "cover": "/covers/10.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-magic-tricks/pl.u-qGLXFRER8P5",
+      "spotify": "https://open.spotify.com/playlist/4CVrhgiuCtYXiLRvjagWbb",
+      "runtime": ""
+    },
+    {
+      "title": "Crystallized Thoughts",
+      "cover": "/covers/02.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-crystallized-thoughts/pl.u-qGjMcRER8P5",
+      "spotify": "https://open.spotify.com/playlist/3HtnxsxyEA5GIVNvh4WvyB",
+      "runtime": ""
+    },
+    {
+      "title": "Forward Momentum",
+      "cover": "/covers/04.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-forward-momentum/pl.u-XegEfB5BozK",
+      "spotify": "https://open.spotify.com/playlist/2aUBrFBh6ttn37Z3UvsVDG",
+      "runtime": ""
+    },
+    {
+      "title": "Fresh Start",
+      "cover": "/covers/05.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-fresh-start/pl.u-EDybsv4v9rK",
+      "spotify": "https://open.spotify.com/playlist/7hXhfcktAgN9bD0sB11ebv",
+      "runtime": ""
+    },
+    {
+      "title": "Echo Chamber",
+      "cover": "/covers/03.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-echo-chamber/pl.u-p0AvCZmZGzL",
+      "spotify": "https://open.spotify.com/playlist/17YT3ncZmdQ20EQh3NLRdz",
+      "runtime": ""
+    },
+    {
+      "title": "Frequency Shift",
+      "cover": "/covers/01.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-frequency-shift/pl.u-rMAXSJBJdxG",
+      "spotify": "https://open.spotify.com/playlist/3RvbjQ1pSzRsTw9FY3VAo2",
+      "runtime": ""
+    },
+    {
+      "title": "Falling Upwards",
+      "cover": "/covers/06.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-falling-upwards/pl.u-qL6JtRER8P5",
+      "spotify": "https://open.spotify.com/playlist/2cdlQk0eNzba1noPqJDbVm",
+      "runtime": ""
+    },
+    {
+      "title": "Energy Renewal",
+      "cover": "/covers/07.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-energy-renewal/pl.u-qL2BtRER8P5",
+      "spotify": "https://open.spotify.com/playlist/216c7oiASCbnFRPeXXKBEg",
+      "runtime": ""
+    },
+    {
+      "title": "Inflection Point",
+      "cover": "/covers/09.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-inflection-point/pl.u-zxV3Cp3pEJg",
+      "spotify": "https://open.spotify.com/playlist/2D9TM4cDFcjkASXFIunfi4",
+      "runtime": ""
+    },
+    {
+      "title": "Growing Optimism",
+      "cover": "/covers/08.jpg",
+      "apple": "https://music.apple.com/gb/playlist/tw-sounds-growing-optimism/pl.u-zRoLtp3pEJg",
+      "spotify": "https://open.spotify.com/playlist/7qUl6mFTUbBS8ppOmitFXp",
+      "runtime": ""
+    }
+  ]
+}

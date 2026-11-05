@@ -1,0 +1,93 @@
+# TW Sounds admin. Every save is a commit to main, and Vercel redeploys in about a minute.
+backend:
+  name: github
+  repo: STUDIO-TW/tw-sounds
+  branch: main
+  base_url: https://sounds.studio-tw.com
+  auth_endpoint: api/auth
+  commit_messages:
+    update: "Update {{collection}} “{{slug}}” from admin"
+    uploadMedia: "Upload “{{path}}” from admin"
+
+site_url: https://sounds.studio-tw.com
+display_url: https://sounds.studio-tw.com
+logo_url: /covers/tw-logo.svg
+
+media_folder: public/covers
+public_folder: /covers
+
+collections:
+  - name: content
+    label: TW Sounds
+    editor: { preview: false }
+    files:
+      - name: playlists
+        label: Playlists
+        file: content/playlists.json
+        format: json
+        fields:
+          - name: playlists
+            label: Playlists
+            label_singular: Playlist
+            widget: list
+            add_to_top: true
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: Newest at the top. Numbers on the site count up from the bottom.
+            fields:
+              - { name: title, label: Title, widget: string, hint: "Without the “TW Sounds:” prefix, e.g. Magic Tricks" }
+              - { name: cover, label: Cover, widget: image, hint: "Square image, about 1500 × 1500px. JPG keeps the site fast." }
+              - { name: apple, label: Apple Music link, widget: string, required: false }
+              - { name: spotify, label: Spotify link, widget: string, required: false }
+              - { name: runtime, label: Runtime, widget: string, required: false, hint: "Leave empty to read it from Apple Music. Otherwise HH:MM, e.g. 01:13" }
+
+      - name: site
+        label: Site text
+        file: content/site.json
+        format: json
+        fields:
+          - name: about
+            label: Bio and links
+            widget: object
+            fields:
+              - name: bio
+                label: Bio paragraphs
+                widget: list
+                field: { name: text, label: Paragraph, widget: text }
+              - name: links
+                label: Link bars
+                widget: list
+                summary: "{{fields.label}}"
+                fields:
+                  - { name: label, label: Label, widget: string }
+                  - { name: href, label: Link, widget: string, required: false }
+                  - { name: subscribe, label: Opens the subscribe form, widget: boolean, required: false, default: false }
+          - name: subscribe
+            label: Subscribe form
+            widget: object
+            fields:
+              - { name: intro, label: Intro line, widget: text }
+              - { name: consent, label: Consent tick box, widget: string }
+              - { name: done, label: After signing up, widget: text }
+              - { name: back, label: Back link, widget: string }
+              - name: errors
+                label: Error messages
+                widget: object
+                fields:
+                  - { name: email, label: Missing email, widget: string }
+                  - { name: name, label: Missing name, widget: string }
+                  - { name: consent, label: Missing consent, widget: string }
+                  - { name: failed, label: Sign-up failed, widget: string }
+          - name: privacy
+            label: Privacy notice
+            widget: object
+            fields:
+              - { name: updated, label: Last updated, widget: string }
+              - name: paragraphs
+                label: Paragraphs
+                widget: list
+                field: { name: text, label: Paragraph, widget: text }
+          - name: loader
+            label: Loader lines
+            widget: list
+            field: { name: text, label: Line, widget: string }
