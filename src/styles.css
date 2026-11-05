@@ -147,3 +147,34 @@ a.p-row:active{background:rgba(239,237,232,.06)}
 .loader.reveal .ld-status{opacity:0}
 .field{transition:opacity .8s ease}
 .field.pre{opacity:0}
+
+/* ---------- Mouse and trackpad hover states (touch screens never see these) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  /* stack: the cover under the pointer gets the loader's hairline frame */
+  .card .cover { outline: 1px solid transparent; outline-offset: 8px; transition: outline-color .2s ease, outline-offset .2s ease; }
+  .card:hover .cover { outline-color: rgba(239,237,232,.6); outline-offset: 6px; }
+
+  /* list: the row under the pointer stays bright while the rest fall back, and its two rules light up */
+  .grid-inner .tile { transition: opacity .2s ease; }
+  .grid-inner:hover .tile { opacity: .4; }
+  .grid-inner .tile:hover { opacity: 1; }
+  .tile::before, .tile:last-child::after { transition: background-color .2s ease; }
+  .tile:hover::before, .tile:hover + .tile::before, .tile:last-child:hover::after { background: rgba(239,237,232,.6); }
+  .tile:hover .tile-no, .tile:hover .tile-time { color: var(--fg); }
+
+  /* link bars in panels, the list footer and the form: a faint fill, and the arrow or envelope edges out */
+  a.p-row, button.p-row, .list-links .p-row, .f-submit { transition: background-color .15s ease; }
+  a.p-row:hover, .panel button.p-row:hover, .list-links .p-row:hover, .f-submit:not([disabled]):hover { background: rgba(239,237,232,.06); }
+  .p-mark, .f-submit > span:last-child { transition: transform .15s ease; }
+  a.p-row:hover .p-mark, .panel button.p-row:hover .p-mark, .list-links .p-row:hover .p-mark { transform: translate(2px, -2px); }
+  .f-submit:not([disabled]):hover > span:last-child { transform: translate(2px, -2px); }
+  .p-link.off:hover { background: none; }
+
+  /* header controls and CLOSE: dim slightly under the pointer */
+  .homebtn, .viewbtn, .close { transition: opacity .15s ease; }
+  .homebtn:hover, .viewbtn:hover, .close:hover { opacity: .55; }
+
+  /* form: the row being pointed at lifts its label, and the consent box brightens */
+  .f-row:hover label { color: var(--fg); }
+  .f-consent:hover .f-text { color: var(--fg); }
+}
