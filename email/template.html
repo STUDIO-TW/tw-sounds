@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>TW SOUNDS</title>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 0; background: #08090a; -webkit-text-size-adjust: 100%; }
+  .tw-body, .tw-body p, .tw-body li, .tw-body td {
+    font-family: 'Fragment Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
+    font-size: 12px; line-height: 1.6; letter-spacing: .02em; text-transform: uppercase; color: #efede8;
+  }
+  .tw-body p { margin: 0 0 18px; }
+  .tw-body a { color: #efede8; text-decoration: underline; }
+  .tw-body img { max-width: 100%; height: auto; border: 0; display: block; }
+  .tw-bar a { text-decoration: none !important; }
+  .tw-muted, .tw-muted a { color: #8d8f95 !important; }
+  @media (max-width: 620px) { .tw-outer { padding: 16px 16px 40px !important; } }
+</style>
+</head>
+<body bgcolor="#08090a" style="margin:0;padding:0;background:#08090a">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#08090a" style="background:#08090a">
+<tr><td align="center" class="tw-outer" style="padding:24px 24px 56px">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" class="tw-body" style="width:100%;max-width:560px;font-family:'Fragment Mono',Menlo,Consolas,'Courier New',monospace;font-size:12px;line-height:1.6;letter-spacing:.02em;text-transform:uppercase;color:#efede8">
+
+  <!-- header: SOUNDS, as on the site -->
+  <tr><td style="padding:0 0 40px">
+    <a href="https://sounds.studio-tw.com" style="color:#efede8;text-decoration:none">SOUNDS</a>
+  </td></tr>
+
+  <!-- the broadcast written in Kit goes here -->
+  <tr><td class="tw-body" style="padding:0">{{ message_content }}</td></tr>
+
+  <!-- footer bars, matching the list view footer -->
+  <tr><td style="padding:40px 0 0">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td class="tw-bar" style="border-top:1px solid #3b3a39;padding:14px 0">
+        <a href="https://music.apple.com/profile/studio___tw" style="display:block;color:#efede8;text-decoration:none">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td style="color:#efede8">FOLLOW ON APPLE MUSIC</td><td align="right" style="color:#efede8">&#8599;&#65038;</td>
+          </tr></table></a></td></tr>
+      <tr><td class="tw-bar" style="border-top:1px solid #3b3a39;padding:14px 0">
+        <a href="https://open.spotify.com/user/72rkw57aue3r5h296skhe6oj3" style="display:block;color:#efede8;text-decoration:none">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td style="color:#efede8">FOLLOW ON SPOTIFY</td><td align="right" style="color:#efede8">&#8599;&#65038;</td>
+          </tr></table></a></td></tr>
+      <tr><td class="tw-bar" style="border-top:1px solid #3b3a39;border-bottom:1px solid #3b3a39;padding:14px 0">
+        <a href="https://sounds.studio-tw.com" style="display:block;color:#efede8;text-decoration:none">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td style="color:#efede8">SOUNDS.STUDIO-TW.COM</td><td align="right" style="color:#efede8">&#8599;&#65038;</td>
+          </tr></table></a></td></tr>
+    </table>
+  </td></tr>
+
+  <!-- small print: Kit fills in the unsubscribe link and the address from account settings -->
+  <tr><td class="tw-muted" style="padding:24px 0 0;color:#8d8f95">
+    <p style="margin:0 0 14px;color:#8d8f95">A series of sounds curated by Tom Winslade of STUDIO TW. You're receiving this because you subscribed to TW SOUNDS.</p>
+    <p style="margin:0 0 14px;color:#8d8f95"><a href="{{ unsubscribe_url }}" style="color:#8d8f95;text-decoration:underline">Unsubscribe</a>&nbsp;&nbsp;&nbsp;<a href="{{ subscriber_preferences_url }}" style="color:#8d8f95;text-decoration:underline">Update details</a></p>
+    <p style="margin:0;color:#8d8f95">{{ address }}<br>STUDIO TW &copy; 2026 ALL RIGHTS RESERVED</p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
