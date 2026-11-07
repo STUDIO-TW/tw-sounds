@@ -58,7 +58,7 @@ const FAN=32;                   // degrees covers tip away from the viewer towar
 let pos=0,t=0,target=0;
 const rand=(a,b)=>a+Math.random()*(b-a);
 
-let W,H,SIZE,cards=[],next=0;
+let W,H,SIZE,cards=[];
 function style(c){
   // each card: its own speed, depth and fixed tilt
   c.k=rand(-1,1);                                   // -1 = far, 1 = near
@@ -69,8 +69,10 @@ function style(c){
   c.ry=0;
   c.dx=0;                            // slight horizontal offset so overlaps read as layers
 }
-function assign(c){
-  const idx=next++%PLAYLISTS.length;c.idx=idx;
+// Which playlist a card shows comes from its absolute place in the stack (a), so the order is always
+// newest to oldest and loops cleanly in both directions, however the stack is scrolled.
+function assign(c,a){
+  const L=PLAYLISTS.length,idx=((a%L)+L)%L;c.a=a;if(c.idx===idx&&c.el.firstChild)return;c.idx=idx;
   c.el.replaceChildren(art[idx].cloneNode(true));
   const src=art[idx].querySelector('canvas'),dst=c.el.querySelector('canvas');if(src&&dst)dst.getContext('2d').drawImage(src,0,0);
   c.el.setAttribute('aria-label',PLAYLISTS[idx].title);
@@ -80,12 +82,11 @@ function build(){
   SIZE=.99*Math.min(600,Math.max(260,Math.min(W*.875,H*.45)));
   document.documentElement.style.setProperty('--focus',SIZE+'px'); // grid matches the focused cover's width
   const reach=Math.ceil((H/2/SIZE+1.3-OPEN)/EDGE), n=2*reach+3;
-  const L=PLAYLISTS.length;next=((-Math.floor(n/2))%L+L)%L;   // so the newest playlist starts in focus
   cards=Array.from({length:n},(_,i)=>{
     const el=document.createElement('button');el.className='card';el.type='button';
     el.style.width=el.style.height=SIZE+'px';
     const c={el,slot:i,lastU:null};
-    style(c);assign(c);
+    style(c);assign(c,i-Math.floor(n/2));   // the middle card, in focus, is the newest playlist
     el.addEventListener('click',e=>{if(moved>6){e.preventDefault();return}open(PLAYLISTS[c.idx])});
     field.append(el);return c;
   });
@@ -140,7 +141,7 @@ function frame(now){
     const loop=cards.length;
     for(const c of cards){
       let u=((c.slot-pos)%loop+loop)%loop-Math.floor(loop/2);          // slots from the centre: negative above, positive below
-    if(c.lastU!=null&&Math.abs(u-c.lastU)>loop/2){style(c);assign(c)} // wrapped round: fresh tilt and cover
+    const a=Math.round(pos+u);if(a!==c.a){style(c);assign(c,a)}       // wrapped round: show the playlist for its new place
     c.lastU=u;
     const sy=(EDGE*u+OPEN*Math.tanh(u/REACH))*SIZE;     // centre of the cover, px from screen centre
     const away=Math.tanh(Math.abs(u)/1.1);              // 0 at the centre, towards 1 at the edges
